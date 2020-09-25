@@ -26,7 +26,7 @@ $ npm start
 
 ## Usage
 
-###Check all URL in a file 
+### Check all URL in a file 
 ```sh
 $ lct -f foo.js
 ```
