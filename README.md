@@ -46,5 +46,5 @@ $ lct -f index2.html test1.txt test.txt
 
 ### GOOD: the URL is available with the status code of 200
 ### BAD: the URL is not available with the status code of 400 or 404
-## UNKNOWN: other status code will be shown as unknown
+### UNKNOWN: other status code will be shown as unknown
 
