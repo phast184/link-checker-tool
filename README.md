@@ -12,11 +12,7 @@ Install project dependencies:
 ```sh
 $ npm install
 ```
-Start the app:
 
-```sh
-$ npm start
-```
 ## Features
 
 - [x] Offline support
