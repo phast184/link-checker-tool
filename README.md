@@ -48,3 +48,6 @@ $ lct -f index2.html test1.txt test.txt
 ### BAD: the URL is not available with the status code of 400 or 404
 ### UNKNOWN: other status code will be shown as unknown
 
+## License
+
+MIT  © [Thanh Tien Phat Nguyen]
