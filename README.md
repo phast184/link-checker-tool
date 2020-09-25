@@ -31,17 +31,18 @@ $ npm start
 $ lct -f foo.js
 ```
 
-###Check a single URL
+### Check a single URL
 ```sh
 $ lct -fu https://github.com/phast184/link-checker-tool.git
 ```
 
-###Read multiple files at once
+### Read multiple files at once
 ```sh
 $ lct -f index2.html test1.txt test.txt
 ```
 
-##Output
+## Output
+[![1.jpg](https://i.postimg.cc/L8wZTJND/1.jpg)](https://postimg.cc/Hr0xWkG8)
 
 
 
