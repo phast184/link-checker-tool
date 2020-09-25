@@ -1,2 +1,3 @@
 # link-checker-tool
-A simple CLI used to check whether an URL is available
+This tool is used to check whether an URL is available or not.
+
