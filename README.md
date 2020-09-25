@@ -12,7 +12,10 @@ Install project dependencies:
 ```sh
 $ npm install
 ```
-
+```sh
+$ npm link
+```
+Allow us to run command locally
 ## Features
 
 - [x] Offline support
