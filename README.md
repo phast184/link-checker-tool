@@ -22,6 +22,8 @@ Allow us to run command locally
 - [x] Check all valid URLs in a file
 - [x] Read multiple files at once
 - [x] Check if an URL is available
+- [x] Optimize code for header requests
+
 
 ## Usage
 

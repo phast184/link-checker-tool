@@ -12,9 +12,12 @@ const argv = yargs
     .alias('v', 'version')
     .alias('f', 'file')
     .alias('url', 'u')
-    .nargs(['f', 'u'], 1) //set the requirement of at least 1 argument for the option, otherwise display --help menu
+    .alias('a','archived')
+    .nargs(['f', 'u', 'a'], 1) //set the requirement of at least 1 argument for the option, otherwise display --help menu
     .describe('f', 'Load file(s)')
     .describe('u', 'Check a specific url')
+    .describe('a', 'Check the available archived version of a website')
+    .example('lct -a https://www.google.com/', 'Check the archived versions of https://www.google.com/')
     .example('lct -u https://www.google.com/', 'Check the status of https://www.google.com/')
     .help('help')
     .version("NAME: Link checker tool, Version 1.0.0")
@@ -70,6 +73,20 @@ const checkURL = async (url) => {
     }
 }
 
+//archived version from wayback machine url
+const archivedURL = (url) => {
+    let bashed_url = encodeURIComponent(url, 26, true);
+    axios.get(`http://archive.org/wayback/available?url=${bashed_url}`)
+        .then(response => {
+            if (response.data.archived_snapshots.length == 0) {
+                console.log(`There is no archived version available for ${url}`)
+            }
+            else {
+                console.log((`Check out the archived version at `) + chalk.green.bold(`${response.data.archived_snapshots.closest.url}`))
+            }
+        })
+        .catch(err => console.log(err))
+}
 
 //main 
 
@@ -82,6 +99,10 @@ const  handleArgument = (argv) => {
         for (i = 0; i < argv._.length; i++) {
             fileInteraction(argv._[i])
         }
+    }
+    else if (argv.a)
+    {
+        archivedURL(argv.a);
     }
 }
 
