@@ -23,6 +23,8 @@ Allow us to run command locally
 - [x] Read multiple files at once
 - [x] Check if an URL is available
 - [x] Optimize code for header requests
+- [x] Check archived versions of a website
+
 
 
 ## Usage
@@ -34,12 +36,21 @@ $ lct -f foo.js
 
 ### Check a single URL
 ```sh
-$ lct -fu https://github.com/phast184/link-checker-tool.git
+$ lct -u https://github.com/phast184/link-checker-tool.git
+$ lct --url https://github.com/phast184/link-checker-tool.git
+
 ```
 
 ### Read multiple files at once
 ```sh
 $ lct -f index2.html test1.txt test.txt
+```
+
+### Read multiple files at once
+```sh
+$ lct -a https://www.google.com/
+$ lct --archived https://www.google.com/
+
 ```
 
 ## Output
