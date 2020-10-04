@@ -55,7 +55,7 @@ const getValidURLFormat = (text) => {
 
 const checkURL = async (url) => {
     try {
-        const response = await axios.get(url);
+        const response = await axios.head(url);
         console.log(chalk.green("[GOOD]" + "[" + response.status + "]" + " " + url))
     }
     catch (err) {
@@ -73,7 +73,7 @@ const checkURL = async (url) => {
 
 //main 
 
-function handleArgument (argv) {
+const  handleArgument = (argv) => {
     if (argv.u) {
         checkURL(argv.u);
     }
