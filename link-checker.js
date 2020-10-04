@@ -12,12 +12,10 @@ const argv = yargs
     .alias('v', 'version')
     .alias('f', 'file')
     .alias('url', 'u')
-    .nargs('f', 1) //set the requirement of at least 1 argument for the option, otherwise display --help menu
+    .nargs(['f', 'u'], 1) //set the requirement of at least 1 argument for the option, otherwise display --help menu
     .describe('f', 'Load file(s)')
-    //.demandOption(['f'])
     .describe('u', 'Check a specific url')
-    .example('lct -fu https://www.google.com/', 'Check the status of https://www.google.com/')
-    .nargs('u', 1)
+    .example('lct -u https://www.google.com/', 'Check the status of https://www.google.com/')
     .help('help')
     .version("NAME: Link checker tool, Version 1.0.0")
     .alias('h', 'help').argv
@@ -74,13 +72,18 @@ const checkURL = async (url) => {
 
 
 //main 
-if (argv.f && (argv.u)) {
-    checkURL(argv.u);
-}
-else if (typeof argv.f == "string") {
-    fileInteraction(argv.f)
-    for (i = 0; i < argv._.length; i++) {
-        fileInteraction(argv._[i])
+
+function handleArgument (argv) {
+    if (argv.u) {
+        checkURL(argv.u);
+    }
+    else if (argv.f) {
+        fileInteraction(argv.f)
+        for (i = 0; i < argv._.length; i++) {
+            fileInteraction(argv._[i])
+        }
     }
 }
 
+
+handleArgument(argv);
