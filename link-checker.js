@@ -14,7 +14,7 @@ const argv = yargs
     .alias('url', 'u')
     .nargs('f', 1) //set the requirement of at least 1 argument for the option, otherwise display --help menu
     .describe('f', 'Load file(s)')
-    .demandOption(['f'])
+    //.demandOption(['f'])
     .describe('u', 'Check a specific url')
     .example('lct -fu https://www.google.com/', 'Check the status of https://www.google.com/')
     .nargs('u', 1)
@@ -24,30 +24,25 @@ const argv = yargs
 
 //INTERACT WITH A FILE
 const fileInteraction = (fName) => {
-
-    let file = fs.createReadStream(fName);
-    let fileName = fName;
-    let text;
-    file.on('data', buf => {
-        console.log(fileName + " is OK to be open")
-        text = buf.toString();
-    })
-    file.on('end', () => {
-        let validURLs = getValidURLFormat(text);
-        if (validURLs == null)
-            console.log("There is no URLs in " + fileName)
+    fs.readFile(fName, (err, data) => {
+        if (err) console.log(`${err} \n`);
         else {
-            for (i = 0; i < validURLs.length; i++) {
-                checkURL(validURLs[i]);
+            console.log(`${fName} is ready to be open!!!`)
+            let text = data.toString();
+            let validURLs = getValidURLFormat(text);
+            if (validURLs == null)
+                console.log(`There is no URLs in ${fName}\n`)
+            else {
+                for (i = 0; i < validURLs.length; i++) {
+                    checkURL(validURLs[i]);
+                }
             }
+            console.log("---------------------------------------------\n");
         }
-        console.log("---------------------------------------------")
-
     })
 
 
 }
-
 
 // check valid URL format
 
@@ -83,15 +78,8 @@ if (argv.f && (argv.u)) {
     checkURL(argv.u);
 }
 else if (typeof argv.f == "string") {
-
-    // fileInteraction(argv);
-
-    // for (i = 0; i < argv._.length; i++) {
-    //     fileInteraction(argv._[i]);
-    // }
     fileInteraction(argv.f)
-    for (i = 0; i < argv._.length; i++)
-    {
+    for (i = 0; i < argv._.length; i++) {
         fileInteraction(argv._[i])
     }
 }
