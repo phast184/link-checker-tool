@@ -97,7 +97,8 @@ const jsonResult = async (url) => {
 
     let result = {
         url: url,
-        status: ''
+        status: '',
+        archivedURL: ''
     }
     try{
         const response = await axios.head(url);
