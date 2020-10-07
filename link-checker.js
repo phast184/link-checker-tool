@@ -14,11 +14,12 @@ const argv = yargs
     .alias('f', 'file')
     .alias('url', 'u')
     .alias('archived', 'a')
-    .alias('g', 'good')
-    .nargs(['f', 'u', 'a'], 1) //set the requirement of at least 1 argument for the option, otherwise display --help menu
+    .alias('j', 'json')
+    .nargs(['f', 'u', 'a', 'j'], 1) //set the requirement of at least 1 argument for the option, otherwise display --help menu
     .describe('f', 'Load file(s)')
     .describe('u', 'Check a specific url')
     .describe('a', 'Check the available archived version of a website')
+    .describe('j', 'Output json result of an URL')
     .example('lct -a https://www.google.com/', 'Check the archived versions of https://www.google.com/')
     .example('lct -u https://www.google.com/', 'Check the status of https://www.google.com/')
     .help('help')
@@ -42,7 +43,7 @@ const fileInteraction = (fName, agrv) => {
             }
             console.log("---------------------------------------------\n");
         }
-      }
+    }
     )
 }
 
@@ -74,6 +75,7 @@ const checkURL = async (url) => {
     }
 }
 
+
 //archived version from wayback machine url
 const archivedURL = (url) => {
     let bashed_url = encodeURIComponent(url, 26, true);
@@ -89,6 +91,30 @@ const archivedURL = (url) => {
         .catch(err => console.log(err))
 }
 
+//out json result of an url
+
+const jsonResult = async (url) => {
+
+    let result = {
+        url: url,
+        status: ''
+    }
+    try{
+        const response = await axios.head(url);
+        result.status = response.status;
+    }
+    catch(err)
+    {
+        if (err.response)
+        {
+            result.status = err.response.status;
+        }
+        else{
+            result.status = 'unknown';
+        }
+    }
+    console.log(result);
+}
 //main 
 
 const handleArgument = (argv) => {
@@ -96,16 +122,19 @@ const handleArgument = (argv) => {
         checkURL(argv.u);
     }
     else if (argv.f) {
-        
+
         console.log(fileInteraction(argv.f))
         for (i = 0; i < argv._.length; i++) {
             fileInteraction(argv._[i])
-            
-        }
 
+        }
     }
     else if (argv.a) {
         archivedURL(argv.a);
+    }
+    else if (argv.j)
+    {
+        jsonResult(argv.j)
     }
 }
 
