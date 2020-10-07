@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "A tool used to check whether an URL is available or not",
   "bin": {
-    "lct": "./link-checker.js"
+    "lct": ".src/link-checker.js"
   },
   "keywords": [
     "cli"

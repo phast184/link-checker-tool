@@ -5,14 +5,16 @@ const fs = require('fs')
 const axios = require('axios');
 const chalk = require('chalk');
 
+
+
 //syntax with using yargs
 const argv = yargs
     .usage('Usage lct <command> [options]')
-    .example("lct -f foo.js", "Check all valid URLs in the file")
     .alias('v', 'version')
     .alias('f', 'file')
     .alias('url', 'u')
-    .alias('a','archived')
+    .alias('archived', 'a')
+    .alias('g', 'good')
     .nargs(['f', 'u', 'a'], 1) //set the requirement of at least 1 argument for the option, otherwise display --help menu
     .describe('f', 'Load file(s)')
     .describe('u', 'Check a specific url')
@@ -24,7 +26,7 @@ const argv = yargs
     .alias('h', 'help').argv
 
 //INTERACT WITH A FILE
-const fileInteraction = (fName) => {
+const fileInteraction = (fName, agrv) => {
     fs.readFile(fName, (err, data) => {
         if (err) console.log(`${err} \n`);
         else {
@@ -40,9 +42,8 @@ const fileInteraction = (fName) => {
             }
             console.log("---------------------------------------------\n");
         }
-    })
-
-
+      }
+    )
 }
 
 // check valid URL format
@@ -90,18 +91,20 @@ const archivedURL = (url) => {
 
 //main 
 
-const  handleArgument = (argv) => {
+const handleArgument = (argv) => {
     if (argv.u) {
         checkURL(argv.u);
     }
     else if (argv.f) {
-        fileInteraction(argv.f)
+        
+        console.log(fileInteraction(argv.f))
         for (i = 0; i < argv._.length; i++) {
             fileInteraction(argv._[i])
+            
         }
+
     }
-    else if (argv.a)
-    {
+    else if (argv.a) {
         archivedURL(argv.a);
     }
 }
