@@ -27,7 +27,7 @@ const argv = yargs
     .alias('h', 'help').argv
 
 //INTERACT WITH A FILE
-const fileInteraction = (fName, agrv) => {
+const fileInteraction = (fName) => {
     fs.readFile(fName, (err, data) => {
         if (err) console.log(`${err} \n`);
         else {
@@ -40,6 +40,7 @@ const fileInteraction = (fName, agrv) => {
                 for (i = 0; i < validURLs.length; i++) {
                     checkURL(validURLs[i]);
                 }
+                
             }
             console.log("---------------------------------------------\n");
         }
