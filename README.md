@@ -41,7 +41,7 @@ $ lct --url https://github.com/phast184/link-checker-tool.git
 
 ```
 
-### Read multiple files at once
+### Check archived versions of a website
 ```sh
 $ lct -f index2.html test1.txt test.txt
 ```
