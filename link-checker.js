@@ -98,7 +98,6 @@ const jsonResult = async (url) => {
     let result = {
         url: url,
         status: '',
-        archivedURL: ''
     }
     try{
         const response = await axios.head(url);
@@ -135,7 +134,7 @@ const handleArgument = (argv) => {
     }
     else if (argv.j)
     {
-        jsonResult(argv.j)
+        jsonResult(argv.j)   
     }
 }
 
