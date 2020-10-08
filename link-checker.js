@@ -16,7 +16,8 @@ const argv = yargs
     .alias('archived', 'ar')
     .alias('g', 'good')
     .alias('b', 'bad')
-    .nargs(['f', 'u', 'a'], 1) //set the requirement of at least 1 argument for the option, otherwise display --help menu
+    .alias('a', 'all')
+    .nargs(['f', 'u', 'ar', 'g', 'b', 'a'], 1) //set the requirement of at least 1 argument for the option, otherwise display --help menu
     .describe('f', 'Load file(s)')
     .describe('u', 'Check a specific url')
     .describe('ar', 'Check the available archived version of a website')
