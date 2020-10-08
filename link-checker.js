@@ -13,13 +13,13 @@ const argv = yargs
     .alias('v', 'version')
     .alias('f', 'file')
     .alias('url', 'u')
-    .alias('archived', 'a')
+    .alias('archived', 'ar')
     .alias('g', 'good')
     .nargs(['f', 'u', 'a'], 1) //set the requirement of at least 1 argument for the option, otherwise display --help menu
     .describe('f', 'Load file(s)')
     .describe('u', 'Check a specific url')
-    .describe('a', 'Check the available archived version of a website')
-    .example('lct -a https://www.google.com/', 'Check the archived versions of https://www.google.com/')
+    .describe('ar', 'Check the available archived version of a website')
+    .example('lct --ar https://www.google.com/', 'Check the archived versions of https://www.google.com/')
     .example('lct -u https://www.google.com/', 'Check the status of https://www.google.com/')
     .help('help')
     .version("NAME: Link checker tool, Version 1.0.0")
@@ -104,8 +104,8 @@ const handleArgument = (argv) => {
         }
 
     }
-    else if (argv.a) {
-        archivedURL(argv.a);
+    else if (argv.ar) {
+        archivedURL(argv.ar);
     }
 }
 
