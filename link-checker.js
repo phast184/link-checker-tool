@@ -125,7 +125,7 @@ const handleArgument = (argv) => {
     }
 
     else if (argv.ar) {
-        archivedURL(argv.a);
+        archivedURL(argv.ar);
     }
 }
 
