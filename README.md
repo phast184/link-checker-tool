@@ -1,6 +1,7 @@
 # link-checker-tool
 This tool is used to check whether an URL is available or not.
-##Installation
+
+## Installation
 Clone the source locally:
 
 ```sh
@@ -24,6 +25,10 @@ Allow us to run command locally
 - [x] Check if an URL is available
 - [x] Optimize code for header requests
 - [x] Check archived versions of a website
+- [x] Output json format result
+- [x] Only display good/bad urls from a file
+
+
 
 
 
@@ -43,14 +48,18 @@ $ lct --url https://github.com/phast184/link-checker-tool.git
 
 ### Check archived versions of a website
 ```sh
-$ lct -f index2.html test1.txt test.txt
-```
-
-### Read multiple files at once
-```sh
 $ lct -a https://www.google.com/
 $ lct --archived https://www.google.com/
 
+```
+### Read multiple files at once
+```sh
+$ lct -f index2.html test1.txt test.txt
+```
+### Output only good urls 
+```sh
+$ lct -g foo.js
+$ lct -- good foo.js
 ```
 
 ## Output

@@ -14,12 +14,18 @@ const argv = yargs
     .alias('f', 'file')
     .alias('url', 'u')
     .alias('archived', 'ar')
-    .alias('j', 'json')
-    .nargs(['f', 'u', 'a', 'j'], 1) //set the requirement of at least 1 argument for the option, otherwise display --help menu
+    .alias('g', 'good')
+    .alias('b', 'bad')
+    .alias('a', 'all')
+    .alias('j','json')
+    .nargs(['f', 'u', 'ar', 'g', 'b', 'a', 'j'], 1) //set the requirement of at least 1 argument for the option, otherwise display --help menu
     .describe('f', 'Load file(s)')
     .describe('u', 'Check a specific url')
     .describe('ar', 'Check the available archived version of a website')
-    .describe('j', 'Output json result of an URL')
+    .describe('a', "Display the status of all valid urls in a loaded file")
+    .describe('good', "Display good urls in a loaded file")
+    .describe('bad', "Display bad urls in a loaded file")
+    .describe('j', "Display json format output of an URL")
     .example('lct --ar https://www.google.com/', 'Check the archived versions of https://www.google.com/')
     .example('lct -u https://www.google.com/', 'Check the status of https://www.google.com/')
     .help('help')
@@ -37,10 +43,22 @@ const fileInteraction = (fName) => {
             if (validURLs == null)
                 console.log(`There is no URLs in ${fName}\n`)
             else {
-                for (i = 0; i < validURLs.length; i++) {
-                    checkURL(validURLs[i]);
+                if (argv.f || argv.all) {
+                    for (i = 0; i < validURLs.length; i++) {
+                        checkURL(validURLs[i]);
+                    }
                 }
-                
+                else if (argv.good){
+                    for (i = 0; i < validURLs.length; i++) {
+                        checkURL(validURLs[i],"good");
+                    }
+                }
+                else if (argv.bad){
+                    for (i = 0; i < validURLs.length; i++) {
+                        checkURL(validURLs[i],"bad");
+                    }
+                }
+
             }
             console.log("---------------------------------------------\n");
         }
@@ -59,20 +77,26 @@ const getValidURLFormat = (text) => {
 // check status of each URL
 
 
-const checkURL = async (url) => {
+const checkURL = async (url, flag = "all") => {
     try {
         const response = await axios.head(url);
-        console.log(chalk.green("[GOOD]" + "[" + response.status + "]" + " " + url))
+        if ((flag == "all") || (flag == "good"))
+            console.log(chalk.green("[GOOD]" + "[" + response.status + "]" + " " + url))
     }
     catch (err) {
         if (err.response) {
-            if (err.response.status == 404 || err.response.status == 400)
-                console.log(chalk.red("[BAD]" + "[" + err.response.status + "]" + " " + url))
+            if (err.response.status == 404 || err.response.status == 400) {
+                if ((flag == "all") || (flag == "bad"))
+                    console.log(chalk.red("[BAD]" + "[" + err.response.status + "]" + " " + url))
+            }
             else
-                console.log(chalk.gray("[UNKOWN]" + "[" + err.response.status + "]" + " " + url))
+                if (flag == "all")
+                    console.log(chalk.gray("[UNKOWN]" + "[" + err.response.status + "]" + " " + url))
         }
-        else
-            console.log(chalk.gray("[UNKOWN][ENOTFOUND] " + url));
+        else {
+            if (flag == "all")
+                console.log(chalk.gray("[UNKOWN][ENOTFOUND] " + url));
+        }
     }
 }
 
@@ -122,20 +146,19 @@ const handleArgument = (argv) => {
     if (argv.u) {
         checkURL(argv.u);
     }
-    else if (argv.f) {
-
-        console.log(fileInteraction(argv.f))
-        for (i = 0; i < argv._.length; i++) {
-            fileInteraction(argv._[i])
-
-        }
-    }
     else if (argv.ar) {
         archivedURL(argv.ar);
     }
     else if (argv.j)
     {
-        jsonResult(argv.j)   
+        jsonResult(argv.j) 
+    }  
+    else if (argv.f || argv.all || argv.good || argv.bad) {
+        let fileName = argv.f || argv.a || argv.good || argv.bad;
+        console.log(fileInteraction(fileName, argv))
+        for (i = 0; i < argv._.length; i++) {
+            fileInteraction(argv._[i], argv)
+        }
     }
 }
 
