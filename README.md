@@ -56,18 +56,37 @@ $ lct --archived https://www.google.com/
 ```sh
 $ lct -f index2.html test1.txt test.txt
 ```
-### Output only good urls 
+### Output only good urls (from multiple files)
 ```sh
 $ lct -g foo.js
-$ lct -- good foo.js
+$ lct --good foo.js
 ```
 
+```sh
+$ lct -g foo.js foo1.js
+$ lct --good foo.js foo1.js
+```
+### Output only bad urls (from multiple files)
+```sh
+$ lct -b foo.js
+$ lct --bad foo.js
+```
+
+```sh
+$ lct -b foo.js foo1.js
+$ lct --bad foo.js foo1.js
+```
+### JSON format output 
+```sh
+$ lct -j https://github.com/phast184/link-checker-tool
+$ lct --json https://github.com/phast184/link-checker-tool
+```
 ## Output
 [![1.jpg](https://i.postimg.cc/L8wZTJND/1.jpg)](https://postimg.cc/Hr0xWkG8)
 
-### GOOD: the URL is available with the status code of 200
-### BAD: the URL is not available with the status code of 400 or 404
-### UNKNOWN: other status code will be shown as unknown
+#### GOOD: the URL is available with the status code of 200
+#### BAD: the URL is not available with the status code of 400 or 404
+#### UNKNOWN: other status code will be shown as unknown
 
 ## License
 
