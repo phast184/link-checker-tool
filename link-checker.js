@@ -13,13 +13,14 @@ const argv = yargs
     .alias('v', 'version')
     .alias('f', 'file')
     .alias('url', 'u')
-    .alias('archived', 'a')
+    .alias('archived', 'ar')
     .alias('g', 'good')
+    .alias('b', 'bad')
     .nargs(['f', 'u', 'a'], 1) //set the requirement of at least 1 argument for the option, otherwise display --help menu
     .describe('f', 'Load file(s)')
     .describe('u', 'Check a specific url')
-    .describe('a', 'Check the available archived version of a website')
-    .example('lct -a https://www.google.com/', 'Check the archived versions of https://www.google.com/')
+    .describe('ar', 'Check the available archived version of a website')
+    .example('lct --ar https://www.google.com/', 'Check the archived versions of https://www.google.com/')
     .example('lct -u https://www.google.com/', 'Check the status of https://www.google.com/')
     .help('help')
     .version("NAME: Link checker tool, Version 1.0.0")
@@ -36,13 +37,26 @@ const fileInteraction = (fName, agrv) => {
             if (validURLs == null)
                 console.log(`There is no URLs in ${fName}\n`)
             else {
-                for (i = 0; i < validURLs.length; i++) {
-                    checkURL(validURLs[i]);
+                if (argv.f || argv.all) {
+                    for (i = 0; i < validURLs.length; i++) {
+                        checkURL(validURLs[i]);
+                    }
                 }
+                else if (argv.good){
+                    for (i = 0; i < validURLs.length; i++) {
+                        checkURL(validURLs[i],"good");
+                    }
+                }
+                else if (argv.bad){
+                    for (i = 0; i < validURLs.length; i++) {
+                        checkURL(validURLs[i],"bad");
+                    }
+                }
+
             }
             console.log("---------------------------------------------\n");
         }
-      }
+    }
     )
 }
 
@@ -57,20 +71,26 @@ const getValidURLFormat = (text) => {
 // check status of each URL
 
 
-const checkURL = async (url) => {
+const checkURL = async (url, flag = "all") => {
     try {
         const response = await axios.head(url);
-        console.log(chalk.green("[GOOD]" + "[" + response.status + "]" + " " + url))
+        if ((flag == "all") || (flag == "good"))
+            console.log(chalk.green("[GOOD]" + "[" + response.status + "]" + " " + url))
     }
     catch (err) {
         if (err.response) {
-            if (err.response.status == 404 || err.response.status == 400)
-                console.log(chalk.red("[BAD]" + "[" + err.response.status + "]" + " " + url))
+            if (err.response.status == 404 || err.response.status == 400) {
+                if ((flag == "all") || (flag == "bad"))
+                    console.log(chalk.red("[BAD]" + "[" + err.response.status + "]" + " " + url))
+            }
             else
-                console.log(chalk.gray("[UNKOWN]" + "[" + err.response.status + "]" + " " + url))
+                if (flag == "all")
+                    console.log(chalk.gray("[UNKOWN]" + "[" + err.response.status + "]" + " " + url))
         }
-        else
-            console.log(chalk.gray("[UNKOWN][ENOTFOUND] " + url));
+        else {
+            if (flag == "all")
+                console.log(chalk.gray("[UNKOWN][ENOTFOUND] " + url));
+        }
     }
 }
 
@@ -95,16 +115,15 @@ const handleArgument = (argv) => {
     if (argv.u) {
         checkURL(argv.u);
     }
-    else if (argv.f) {
-        
-        console.log(fileInteraction(argv.f))
+    else if (argv.f || argv.all || argv.good || argv.bad) {
+        let fileName = argv.f || argv.a || argv.good || argv.bad;
+        console.log(fileInteraction(fileName, argv))
         for (i = 0; i < argv._.length; i++) {
-            fileInteraction(argv._[i])
-            
+            fileInteraction(argv._[i], argv)
         }
-
     }
-    else if (argv.a) {
+
+    else if (argv.ar) {
         archivedURL(argv.a);
     }
 }
