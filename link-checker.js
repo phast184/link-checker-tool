@@ -133,9 +133,6 @@ const handleArgument = (argv) => {
     else if (argv.ar) {
         archivedURL(argv.ar);
     }
-    else if (argv.ar) {
-        archivedURL(argv.ar);
-    }
     else if (argv.j)
     {
         jsonResult(argv.j)   
