@@ -178,6 +178,7 @@ const getIgnoredURL = (fileName) => {
                 if(text.startsWith("#") || ignoredURLs != null){
                     console.log(chalk.green.bold("This is a valid file"))
                     console.log(`${fileName} is ready to be open!!!`)
+                    console.log("---------------------------------------------\n");
                     resolve(ignoredURLs)           
                 }else{
                     console.log(chalk.red.bold("This is an invalid file."))
