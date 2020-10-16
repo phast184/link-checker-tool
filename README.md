@@ -27,7 +27,7 @@ Allow us to run command locally
 - [x] Check archived versions of a website
 - [x] Output json format result
 - [x] Only display good/bad urls from a file
-
+- [x] Exclude URLs from our check based on a URL pattern file.
 
 
 
@@ -80,6 +80,11 @@ $ lct --bad foo.js foo1.js
 ```sh
 $ lct -j https://github.com/phast184/link-checker-tool
 $ lct --json https://github.com/phast184/link-checker-tool
+```
+### Ignore URL Patterns
+```sh
+$ lct -i ingonre-urls.txt -f test.txt
+Note:`i` option can be used with any other available options(`-f-`,`-g`, `-b`, `-a`)
 ```
 ## Output
 [![1.jpg](https://i.postimg.cc/L8wZTJND/1.jpg)](https://postimg.cc/Hr0xWkG8)
