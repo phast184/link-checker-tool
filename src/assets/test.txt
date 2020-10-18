@@ -1,1 +1,5 @@
 aadssadas
+https://learn.senecacollege.ca/
+<a href="https://medium.com/feed/@brandonjwissmann">https://medium.com/feed/@brandonjwissmann</a>
+<a href="https://olenavyshnevska.blogspot.com/feeds/posts/default/-/opensource">https://olenavyshnevska.blogspot.com/feeds/posts/default/-/opensource</a>
+<a href="https://paulmoonblog.wordpress.com/?tag=opensource&amp;feed=rss2">https://paulmoonblog.wordpress.com/?tag=opensource&amp;feed=rss2</a>

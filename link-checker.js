@@ -7,6 +7,7 @@ const chalk = require('chalk');
 
 
 
+
 //syntax with using yargs
 const argv = yargs
     .usage('Usage lct <command> [options]')
@@ -18,7 +19,8 @@ const argv = yargs
     .alias('b', 'bad')
     .alias('a', 'all')
     .alias('j','json')
-    .nargs(['f', 'u', 'ar', 'g', 'b', 'a', 'j'], 1) //set the requirement of at least 1 argument for the option, otherwise display --help menu
+    .alias('i', 'ignore')
+    .nargs(['f', 'u', 'ar', 'g', 'b', 'a', 'j', 'i'], 1) //set the requirement of at least 1 argument for the option, otherwise display --help menu
     .describe('f', 'Load file(s)')
     .describe('u', 'Check a specific url')
     .describe('ar', 'Check the available archived version of a website')
@@ -26,8 +28,10 @@ const argv = yargs
     .describe('good', "Display good urls in a loaded file")
     .describe('bad', "Display bad urls in a loaded file")
     .describe('j', "Display json format output of an URL")
+    .describe('i', "Load and parse an ignored URLs text file")
     .example('lct --ar https://www.google.com/', 'Check the archived versions of https://www.google.com/')
     .example('lct -u https://www.google.com/', 'Check the status of https://www.google.com/')
+    .example('lct -i ignore-urls.txt -f test.txt', 'Report about all URLS except the URLS mentioned in ignore-urls.txt')
     .help('help')
     .version("NAME: Link checker tool, Version 1.0.0")
     .alias('h', 'help').argv
@@ -43,21 +47,24 @@ const fileInteraction = (fName) => {
             if (validURLs == null)
                 console.log(`There is no URLs in ${fName}\n`)
             else {
-                if (argv.f || argv.all) {
-                    for (i = 0; i < validURLs.length; i++) {
-                        checkURL(validURLs[i]);
-                    }
-                }
-                else if (argv.good){
-                    for (i = 0; i < validURLs.length; i++) {
-                        checkURL(validURLs[i],"good");
-                    }
-                }
-                else if (argv.bad){
-                    for (i = 0; i < validURLs.length; i++) {
-                        checkURL(validURLs[i],"bad");
-                    }
-                }
+                if(argv.i){
+                   getIgnoredURL(argv.i)
+                   .then(data => {
+                       //update the validURLs by removing any ignored URLs that found
+                        validURLs = validURLs.filter(url => !data.includes(url))
+                        return validURLs
+                   })
+                   .then(updatedValidURLS =>{
+                       //call manageURL with updated validURLs
+                        manageURL(updatedValidURLS)
+                   })
+                   .catch(err => {
+                       console.log(err);
+                   });                    
+                }else{
+                    //call manageURL with unfiltered validURLs
+                    manageURL(validURLs)
+                }    
 
             }
             console.log("---------------------------------------------\n");
@@ -65,7 +72,25 @@ const fileInteraction = (fName) => {
     }
     )
 }
+//call checkURL based on filtered/unfiltered URLs and arguments
 
+const manageURL = (validURLs) =>{
+    if (argv.f || argv.all) {
+        for (i = 0; i < validURLs.length; i++) {
+            checkURL(validURLs[i]);
+        }
+    }
+    else if (argv.good){
+        for (i = 0; i < validURLs.length; i++) {
+            checkURL(validURLs[i],"good");
+        }
+    }
+    else if (argv.bad){
+        for (i = 0; i < validURLs.length; i++) {
+            checkURL(validURLs[i],"bad");
+        }
+    }
+}
 // check valid URL format
 
 const getValidURLFormat = (text) => {
@@ -140,6 +165,29 @@ const jsonResult = async (url) => {
     }
     console.log(result);
 }
+
+//read the ignore file ans retrun all the ignored URLs
+
+const getIgnoredURL = (fileName) => {
+    return new Promise((resolve, reject) => {
+        fs.readFile(fileName, (err, data) => {
+            if (err) return reject (err);
+            else {
+                let text = data.toString()
+                let ignoredURLs = getValidURLFormat(text);
+                if(text.startsWith("#") || ignoredURLs != null){
+                    console.log(chalk.green.bold("This is a valid file"))
+                    console.log(`${fileName} is ready to be open!!!`)
+                    console.log("---------------------------------------------\n");
+                    resolve(ignoredURLs)           
+                }else{
+                    console.log(chalk.red.bold("This is an invalid file."))
+                }
+            }
+        })
+    })    
+}
+
 //main 
 
 const handleArgument = (argv) => {
@@ -152,15 +200,15 @@ const handleArgument = (argv) => {
     else if (argv.j)
     {
         jsonResult(argv.j) 
-    }  
-    else if (argv.f || argv.all || argv.good || argv.bad) {
+    }
+    else if (argv.f || argv.all || argv.good || argv.bad || argv.i) {
+        
         let fileName = argv.f || argv.a || argv.good || argv.bad;
-        console.log(fileInteraction(fileName, argv))
+        fileInteraction(fileName)
         for (i = 0; i < argv._.length; i++) {
             fileInteraction(argv._[i], argv)
         }
     }
 }
-
 
 handleArgument(argv);
