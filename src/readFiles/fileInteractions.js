@@ -11,7 +11,7 @@ const fileInteraction = (fName, argv) => {
             consoleMsg(fName)
             let text = data.toString();
             let validURLs = getValidURLFormat(text);
-            if (validURLs == null)
+            if (!validURLs)
                 console.log(`There is no URLs in ${fName}\n`)
             else {
                 if(argv.i){
