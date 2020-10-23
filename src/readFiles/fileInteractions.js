@@ -52,17 +52,23 @@ const getIgnoredURL = (fileName) => {
                     consoleMsg(fileName)
                     resolve(ignoredURLs)           
                 }else{
-                    console.log(chalk.red.bold("This is an invalid file."))
+                    consoleMsg(fileName,false);
                 }
             }
         })
     })    
 }
 
-const consoleMsg = (fileName) => {
-    console.log(chalk.green.bold("This is a valid file"))
-    console.log(`${fileName} is ready to be open!!!`)
-    console.log("---------------------------------------------\n");
+const consoleMsg = (fileName, flag = true) => {
+    if (flag)
+    {
+        console.log(chalk.green.bold("This is a valid file"))
+        console.log(`${fileName} is ready to be open!!!`)
+        console.log("---------------------------------------------\n");
+    }
+    else{
+        console.log(chalk.red.bold("This is an invalid file."))
+    }
 }
 
 module.exports = {
