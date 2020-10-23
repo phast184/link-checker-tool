@@ -8,7 +8,7 @@ const fileInteraction = (fName, argv) => {
     fs.readFile(fName, (err, data) => {
         if (err) console.log(`${err} \n`);
         else {
-            console.log(`${fName} is ready to be open!!!`)
+            consoleMsg(fName)
             let text = data.toString();
             let validURLs = getValidURLFormat(text);
             if (validURLs == null)
@@ -34,7 +34,6 @@ const fileInteraction = (fName, argv) => {
                 }    
 
             }
-            console.log("---------------------------------------------\n");
         }
     }
     )
@@ -50,9 +49,7 @@ const getIgnoredURL = (fileName) => {
                 let text = data.toString()
                 let ignoredURLs = getValidURLFormat(text);
                 if(text.startsWith("#") || ignoredURLs != null){
-                    console.log(chalk.green.bold("This is a valid file"))
-                    console.log(`${fileName} is ready to be open!!!`)
-                    console.log("---------------------------------------------\n");
+                    consoleMsg(fileName)
                     resolve(ignoredURLs)           
                 }else{
                     console.log(chalk.red.bold("This is an invalid file."))
@@ -60,6 +57,12 @@ const getIgnoredURL = (fileName) => {
             }
         })
     })    
+}
+
+const consoleMsg = (fileName) => {
+    console.log(chalk.green.bold("This is a valid file"))
+    console.log(`${fileName} is ready to be open!!!`)
+    console.log("---------------------------------------------\n");
 }
 
 module.exports = {

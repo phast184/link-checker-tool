@@ -33,7 +33,5 @@ const argv = yargs
     .version("NAME: Link checker tool, Version 1.0.0")
     .alias('h', 'help').argv
 
-
-
 //main 
 handleArgument(argv);
