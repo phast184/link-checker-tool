@@ -2,6 +2,7 @@
 
 const {checkURL, archivedURL, jsonResult} = require('../urlHelper/urlFunctions')
 const {fileInteraction} = require('../readFiles/fileInteractions')
+const {telescopeCheck} = require('../apiHandler/apiHandler')
 
 const handleArgument = (argv) => {
     if (argv.u) {
@@ -21,6 +22,9 @@ const handleArgument = (argv) => {
         for (i = 0; i < argv._.length; i++) {
             fileInteraction(argv._[i], argv)
         }
+    }
+    else if (argv.t){
+        telescopeCheck(argv.t);
     }
 }
 

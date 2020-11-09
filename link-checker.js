@@ -17,7 +17,8 @@ const argv = yargs
     .alias('a', 'all')
     .alias('j','json')
     .alias('i', 'ignore')
-    .nargs(['f', 'u', 'ar', 'g', 'b', 'a', 'j', 'i'], 1) //set the requirement of at least 1 argument for the option, otherwise display --help menu
+    .alias('t','telescope')
+    .nargs(['f', 'u', 'ar', 'g', 'b', 'a', 'j', 'i', 't'], 1) //set the requirement of at least 1 argument for the option, otherwise display --help menu
     .describe('f', 'Load file(s)')
     .describe('u', 'Check a specific url')
     .describe('ar', 'Check the available archived version of a website')
@@ -26,6 +27,7 @@ const argv = yargs
     .describe('bad', "Display bad urls in a loaded file")
     .describe('j', "Display json format output of an URL")
     .describe('i', "Load and parse an ignored URLs text file")
+    .describe('t', "To check 10 latest posts from telescope using local url http://localhost:3000/posts")
     .example('lct --ar https://www.google.com/', 'Check the archived versions of https://www.google.com/')
     .example('lct -u https://www.google.com/', 'Check the status of https://www.google.com/')
     .example('lct -i ignore-urls.txt -f test.txt', 'Report about all URLS except the URLS mentioned in ignore-urls.txt')
