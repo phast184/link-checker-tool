@@ -42,7 +42,7 @@ The automation of such tools like ESLint and Prettier in our editor makes a bett
 
 * To auto-format after each save, we have to open command palette using `Ctrl+Shift+P` and choose `Open Workspace Settings`
 
-![Command Palette](./src/assets/pictures/ctrl_shift_p.png)
+![Command Palette](./src/assets/pictures/ctr_shift_p.png)
 
 * In `Formatting`, choose `Format on Save` to allow Prettier auto-format our code after each save.
 ![onSave](./src/assets/pictures/prettier.JPG)
