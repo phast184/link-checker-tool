@@ -91,10 +91,11 @@ const manageURL = (validURLs, argv) => {
     }
   }
 };
+
 module.exports = {
   getValidURLFormat,
   checkURL,
   archivedURL,
   jsonResult,
-  manageURL,
+  manageURL
 };
