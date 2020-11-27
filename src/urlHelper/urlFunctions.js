@@ -1,6 +1,6 @@
 const axios = require("axios");
 const chalk = require("chalk");
-
+const fetch = require("node-fetch");
 // check valid URL format
 
 const getValidURLFormat = (text) => {
@@ -12,28 +12,54 @@ const getValidURLFormat = (text) => {
 
 // check status of each URL
 
+// const checkURL = async (url, flag = "all") => {
+//   try {
+//     const response = await axios.head(url);
+//     if (flag == "all" || flag == "good")
+//       console.log(
+//         chalk.green("[GOOD]" + "[" + response.status + "]" + " " + url)
+//       );
+//   } catch (err) {
+//     if (err.response) {
+//       if (err.response.status == 404 || err.response.status == 400) {
+//         if (flag == "all" || flag == "bad")
+//           console.log(
+//             chalk.red("[BAD]" + "[" + err.response.status + "]" + " " + url)
+//           );
+//       } else if (flag == "all")
+//         console.log(
+//           chalk.gray("[UNKOWN]" + "[" + err.response.status + "]" + " " + url)
+//         );
+//     } else {
+//       if (flag == "all") console.log(chalk.gray("[UNKOWN][ENOTFOUND] " + url));
+//     }
+//   }
+// };
+
 const checkURL = async (url, flag = "all") => {
-  try {
-    const response = await axios.head(url);
-    if (flag == "all" || flag == "good")
-      console.log(
-        chalk.green("[GOOD]" + "[" + response.status + "]" + " " + url)
-      );
-  } catch (err) {
-    if (err.response) {
-      if (err.response.status == 404 || err.response.status == 400) {
-        if (flag == "all" || flag == "bad")
+  await fetch(url, { method: "head" })
+    .then((response) => {
+      if (response.status == 200) {
+        if (flag == "all" || flag == "good")
           console.log(
-            chalk.red("[BAD]" + "[" + err.response.status + "]" + " " + url)
+            chalk.green("[GOOD]" + "[" + response.status + "]" + " " + url)
           );
-      } else if (flag == "all")
-        console.log(
-          chalk.gray("[UNKOWN]" + "[" + err.response.status + "]" + " " + url)
-        );
-    } else {
+      } else if (response.status == 400 || response.status == 404) {
+        if (flag == "all" || flag == "bad") {
+          console.log(
+            chalk.red("[BAD]" + "[" + response.status + "]" + " " + url)
+          );
+        }
+      } else {
+        if (flag == "all")
+          console.log(
+            chalk.gray("[UNKOWN]" + "[" + response.status + "]" + " " + url)
+          );
+      }
+    })
+    .catch(() => {
       if (flag == "all") console.log(chalk.gray("[UNKOWN][ENOTFOUND] " + url));
-    }
-  }
+    });
 };
 
 //archived version from wayback machine url
@@ -61,16 +87,14 @@ const jsonResult = async (url) => {
     url: url,
     status: "",
   };
-  try {
-    const response = await axios.head(url);
-    result.status = response.status;
-  } catch (err) {
-    if (err.response) {
-      result.status = err.response.status;
-    } else {
+
+  await fetch(url, { method: "head" })
+    .then((response) => {
+      result.status = response.status;
+    })
+    .catch((err) => {
       result.status = "unknown";
-    }
-  }
+    });
   console.log(result);
 };
 
