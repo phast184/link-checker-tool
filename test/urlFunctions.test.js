@@ -117,5 +117,13 @@ describe("test all funtions in urlFunctions", () => {
   });
 
   //test archivedURL
-
+  test('should display the available archived version of the site', async () => {
+    const url = 'https://github.com/';
+    await archivedURL(url);
+    const expected = `Check out the archived version at ${chalk.green.bold(
+      'http://web.archive.org/web/20201128014114/https://github.com/'
+    )}`;
+    expect(finalize(logOutput)).toEqual(expected);
+    expect(finalize(errorOutput)).toBe(null);
+  });
 });

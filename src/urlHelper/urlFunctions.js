@@ -40,9 +40,9 @@ const checkURL = async (url, flag = "all") => {
 };
 
 //archived version from wayback machine url
-const archivedURL = (url) => {
+const archivedURL = async (url) => {
   let bashed_url = encodeURIComponent(url, 26, true);
-  axios
+  await axios
     .get(`http://archive.org/wayback/available?url=${bashed_url}`)
     .then((response) => {
       if (response.data.archived_snapshots.length == 0) {
