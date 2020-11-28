@@ -9,7 +9,8 @@
     "cli"
   ],
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "coverage": "jest --collectCoverage --"
   },
   "preferGlobal": true,
   "author": "Thanh Tien Phat Nguyen",

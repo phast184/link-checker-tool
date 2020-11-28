@@ -42,28 +42,38 @@ describe("test all funtions in urlFunctions", () => {
     errorOutput = null;
   });
 
-  // test jsonResult 
-    test("should return jsonResult object with status code 200", async () => {
-        let url = "https://www.instagram.com/";
-        await jsonResult(url);
-        const expected = [{
-            url: url,
-            status: 200
-        }];
-        expect(finalize(JSON.stringify(logOutput))).toEqual(JSON.stringify(expected));
-        expect(finalize(errorOutput)).toBe(null);
-    });
-  
-    test("should return jsonResult object with status code 404", async () => {
-      let url = "http://zadkielm.blogspot.com/feeds/posts/default/-/open%20source";
-      await jsonResult(url);
-      const expected = [{
-          url: url,
-          status: 404
-      }];
-      expect(finalize(JSON.stringify(logOutput))).toEqual(JSON.stringify(expected));
-      expect(finalize(errorOutput)).toBe(null);
+  // test jsonResult
+  test("should return jsonResult object with status code 200", async () => {
+    let url = "https://www.instagram.com/";
+    await jsonResult(url);
+    const expected = [
+      {
+        url: url,
+        status: 200,
+      },
+    ];
+    expect(finalize(JSON.stringify(logOutput))).toEqual(
+      JSON.stringify(expected)
+    );
+    expect(finalize(errorOutput)).toBe(null);
   });
+
+  test("should return jsonResult object with status code 404", async () => {
+    let url =
+      "http://zadkielm.blogspot.com/feeds/posts/default/-/open%20source";
+    await jsonResult(url);
+    const expected = [
+      {
+        url: url,
+        status: 404,
+      },
+    ];
+    expect(finalize(JSON.stringify(logOutput))).toEqual(
+      JSON.stringify(expected)
+    );
+    expect(finalize(errorOutput)).toBe(null);
+  });
+
   // test checkURL
 
   test("should return 200 code for the GOOD url", async () => {
@@ -83,7 +93,7 @@ describe("test all funtions in urlFunctions", () => {
     expect(finalize(logOutput)).toEqual(expected);
     expect(finalize(errorOutput)).toBe(null);
   });
-  
+
   test("should return 500 status code for the UNKNOWN url", async () => {
     let flag = "all";
     let url = "http://stronglytyped.ca/category/spo600/feed";
@@ -92,8 +102,5 @@ describe("test all funtions in urlFunctions", () => {
     expect(finalize(logOutput)).toEqual(expected);
     expect(finalize(errorOutput)).toBe(null);
   });
-
- 
-});
 
 

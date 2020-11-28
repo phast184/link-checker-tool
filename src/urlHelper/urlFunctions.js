@@ -12,29 +12,6 @@ const getValidURLFormat = (text) => {
 
 // check status of each URL
 
-// const checkURL = async (url, flag = "all") => {
-//   try {
-//     const response = await axios.head(url);
-//     if (flag == "all" || flag == "good")
-//       console.log(
-//         chalk.green("[GOOD]" + "[" + response.status + "]" + " " + url)
-//       );
-//   } catch (err) {
-//     if (err.response) {
-//       if (err.response.status == 404 || err.response.status == 400) {
-//         if (flag == "all" || flag == "bad")
-//           console.log(
-//             chalk.red("[BAD]" + "[" + err.response.status + "]" + " " + url)
-//           );
-//       } else if (flag == "all")
-//         console.log(
-//           chalk.gray("[UNKOWN]" + "[" + err.response.status + "]" + " " + url)
-//         );
-//     } else {
-//       if (flag == "all") console.log(chalk.gray("[UNKOWN][ENOTFOUND] " + url));
-//     }
-//   }
-// };
 
 const checkURL = async (url, flag = "all") => {
   await fetch(url, { method: "head" })
