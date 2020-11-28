@@ -47,4 +47,23 @@ The automation of such tools like ESLint and Prettier in our editor makes a bett
 * In `Formatting`, choose `Format on Save` to allow Prettier auto-format our code after each save.
 ![onSave](./src/assets/pictures/prettier.JPG)
 
+## Contribute to automated test units
 
+### How to run test
+* Currently, I'm using Jest to framework to manage my tests. 
+
+* You can run test by using the command below.
+
+```
+$ npm run test
+
+```
+
+* To contribute to the test library, please use the command below. This command will display how many functions which need to be tested.
+
+```
+$ npm run coverage
+
+```
+
+The test file is in "test/urlFunctions.test.js". Feel free to contribute. Much appreciation.
