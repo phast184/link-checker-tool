@@ -16,6 +16,12 @@ This tool is used to check whether an URL is available or not.
 
 ## Usage
 
+### To Install the package
+
+```sh
+$ npm -i link-checker-tool
+```
+
 ### Check all URL in a file
 
 ```sh
