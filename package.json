@@ -1,6 +1,6 @@
 {
-  "name": "checker-tool",
-  "version": "1.0.0",
+  "name": "link-checker-tool",
+  "version": "1.0.1",
   "description": "A tool used to check whether an URL is available or not",
   "bin": {
     "lct": "/link-checker.js"

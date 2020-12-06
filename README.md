@@ -22,6 +22,12 @@ This tool is used to check whether an URL is available or not.
 $ npm -i link-checker-tool
 ```
 
+or to install globally
+
+```sh
+$ npm install -g link-checker-tool
+```
+
 ### Check all URL in a file
 
 ```sh
