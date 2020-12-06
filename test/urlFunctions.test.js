@@ -1,5 +1,9 @@
 const chalk = require("chalk");
-const { jsonResult, checkURL } = require("../src/urlHelper/urlFunctions");
+const {
+  jsonResult,
+  checkURL,
+  archivedURL
+} = require("../src/urlHelper/urlFunctions");
 
 const originalConsoleLogFn = global.console.log;
 const originalConsoleErrorFn = global.console.error;
@@ -103,5 +107,15 @@ describe("test all funtions in urlFunctions", () => {
     expect(finalize(errorOutput)).toBe(null);
   });
 
+  test("should return UNKNOWN status code for the UNKNOWN url", async () => {
+    let flag = "all";
+    let url = "http://peter.sykokillers.com/category/open-source/feed";
+    await checkURL(url, flag);
+    const expected = chalk.gray("[UNKOWN][ENOTFOUND] " + url);
+    expect(finalize(logOutput)).toEqual(expected);
+    expect(finalize(errorOutput)).toBe(null);
+  });
+
+  //test archivedURL
 
 });
